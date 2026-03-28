@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HF • BIJUS</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ffe4ec, #f3e8ff, #e0f2ff);
+}
+
+/* HEADER */
+header {
+    background: #ff69b4;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 28px;
+}
+
+/* CORAÇÃO BATENDO */
+.heart {
+    display: inline-block;
+    animation: beat 1s infinite;
+}
+@keyframes beat {
+    0% {transform: scale(1);}
+    50% {transform: scale(1.2);}
+    100% {transform: scale(1);}
+}
+
+/* PRODUTOS */
+.container {
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 15px 0;
+    box-shadow: 0 0 10px rgba(255,105,180,0.3);
+    transition: 0.3s;
+}
+
+/* BRILHO */
+.card:hover {
+    box-shadow: 0 0 20px #ff69b4;
+    transform: scale(1.02);
+}
+
+.price {
+    color: #ff1493;
+    font-weight: bold;
+}
+
+button {
+    background: #ff69b4;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* CARRINHO */
+.cart {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px pink;
+}
+
+/* BOTÕES */
+.links {
+    text-align: center;
+    margin: 20px;
+}
+
+a {
+    text-decoration: none;
+    margin: 5px;
+    display: inline-block;
+    background: #ff69b4;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+HF • BIJUS <span class="heart">🩷</span>
+</header>
+
+<div class="cart">
+🛒 Carrinho: <span id="cartCount">0</span>
+</div>
+
+<div class="container">
+
+<div class="card">
+<h3>Pulseiras Simples 🩷</h3>
+<p class="price">R$ 5,00 🩷</p>
+<button onclick="addToCart()">Adicionar</button>
+</div>
+
+<div class="card">
+<h3>Pulseiras de Luxo 🩷</h3>
+<p class="price">A partir de R$ 7,00 🩷</p>
+<button onclick="addToCart()">Adicionar</button>
+</div>
+
+<div class="card">
+<h3>Colares 🩷</h3>
+<p class="price">A partir de R$ 20,00 🩷</p>
+<button onclick="addToCart()">Adicionar</button>
+</div>
+
+<div class="card">
+<h3>Brincos 🩷</h3>
+<p class="price">A partir de R$ 5,00 🩷</p>
+<button onclick="addToCart()">Adicionar</button>
+</div>
+
+<div class="card">
+<h3>Cordinhas de Celular 🩷</h3>
+<p class="price">A partir de R$ 10,00 🩷</p>
+<button onclick="addToCart()">Adicionar</button>
+</div>
+
+<div class="card">
+<h3>Braceletes 🩷</h3>
+<p class="price">A partir de R$ 15,00 🩷</p>
+<button onclick="addToCart()">Adicionar</button>
+</div>
+
+<div class="card">
+<h3>Tornozeleiras 🩷</h3>
+<p class="price">A partir de R$ 12,50 🩷</p>
+<button onclick="addToCart()">Adicionar</button>
+</div>
+
+<div class="card">
+<h3>Chaveiros 🩷</h3>
+<p class="price">A partir de R$ 10,00 🩷</p>
+<button onclick="addToCart()">Adicionar</button>
+</div>
+
+</div>
+
+<div class="links">
+<a href="https://wa.me/553891580022" target="_blank">📲 WhatsApp</a>
+<a href="https://www.instagram.com/hf_arteebijus" target="_blank">📸 Instagram</a>
+</div>
+
+<footer style="text-align:center; padding:20px;">
+Postagens no Instagram: Sextas e Fins de Semana 💕
+</footer>
+
+<script>
+let cart = 0;
+
+function addToCart() {
+    cart++;
+    document.getElementById("cartCount").innerText = cart;
+}
+</script>
+
+</body>
+  </html>
