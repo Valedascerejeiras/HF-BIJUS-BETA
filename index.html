@@ -10,28 +10,29 @@ body {
     margin: 0;
     font-family: Arial;
     background: linear-gradient(135deg, #ffe4ec, #f3e8ff, #e0f2ff);
+    overflow-x: hidden;
 }
 
-/* 🌸 FLORES NO CANTO ESQUERDO */
-body::before {
-    content: "🌸 🌷 🌹 🌸 🌷 🌸 🌹 🌸";
+/* 🌸 FLORES */
+.flor {
     position: fixed;
-    left: 5px;
-    top: 100px;
-    font-size: 28px;
-    opacity: 0.5;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    top: -50px;
     pointer-events: none;
-    animation: flutuar 6s infinite ease-in-out;
+    animation: cair linear infinite;
+    opacity: 0.7;
 }
 
-/* ANIMAÇÃO */
-@keyframes flutuar {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(10px); }
-    100% { transform: translateY(0px); }
+/* ANIMAÇÃO COM VENTO */
+@keyframes cair {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate(40px, 50vh) rotate(180deg);
+    }
+    100% {
+        transform: translate(-40px, 110vh) rotate(360deg);
+    }
 }
 
 /* HEADER */
@@ -266,6 +267,25 @@ function fecharModal() {
     document.getElementById("modal").style.display = "none";
 }
 
+/* 🌸 FLORES COM CORES DIFERENTES */
+const flores = ["🌸","🌺","🌷","💮"];
+
+function criarFlores() {
+    for (let i = 0; i < 25; i++) {
+        let flor = document.createElement("div");
+        flor.classList.add("flor");
+
+        flor.innerHTML = flores[Math.floor(Math.random()*flores.length)];
+
+        flor.style.left = Math.random() * 100 + "vw";
+        flor.style.animationDuration = (6 + Math.random() * 6) + "s";
+        flor.style.fontSize = (15 + Math.random() * 20) + "px";
+
+        document.body.appendChild(flor);
+    }
+}
+
+criarFlores();
 atualizar();
 </script>
 
