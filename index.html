@@ -12,42 +12,64 @@ body {
     background: linear-gradient(135deg, #ffe4ec, #f3e8ff, #e0f2ff);
 }
 
+/* HEADER */
 header {
     background: #ff69b4;
     color: white;
     text-align: center;
     padding: 20px;
-    font-size: 28px;
+    font-size: 30px;
 }
 
-.heart {
-    animation: beat 1s infinite;
-}
-@keyframes beat {
-    50% {transform: scale(1.2);}
-}
-
+/* GRID */
 .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
     padding: 20px;
 }
 
+/* CARD */
 .card {
     background: white;
     border-radius: 15px;
     padding: 15px;
-    margin: 15px 0;
-    box-shadow: 0 0 10px rgba(255,105,180,0.3);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
-.card:hover {
-    box-shadow: 0 0 20px #ff69b4;
+/* BRILHO */
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+    animation: brilho 3s infinite;
 }
 
+@keyframes brilho {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* PREÇO */
 .price {
     color: #ff1493;
     font-weight: bold;
 }
 
+/* BOTÕES */
 button {
     background: #ff69b4;
     color: white;
@@ -58,7 +80,7 @@ button {
     margin-top: 5px;
 }
 
-/* ÍCONE */
+/* CARRINHO */
 .cart-icon {
     position: fixed;
     top: 15px;
@@ -67,88 +89,107 @@ button {
     cursor: pointer;
 }
 
-/* CARRINHO */
 .cart-box {
     position: fixed;
     right: 10px;
     top: 60px;
-    width: 270px;
+    width: 280px;
     background: white;
     border-radius: 15px;
     padding: 15px;
-    box-shadow: 0 0 15px pink;
     display: none;
 }
 
 .cart-item {
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
-    margin: 5px 0;
 }
 
 .total {
     margin-top: 10px;
     font-weight: bold;
-    color: #ff1493;
+}
+
+/* MODAL IMAGEM */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+}
+
+.modal img {
+    display: block;
+    margin: 5% auto;
+    max-width: 80%;
+    border-radius: 10px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-HF • BIJUS <span class="heart">🩷</span>
-</header>
+<header>HF • BIJUS 🩷</header>
 
-<div class="cart-icon" onclick="toggleCart()">
-🛒 (<span id="count">0</span>)
-</div>
+<!-- CARRINHO -->
+<div class="cart-icon" onclick="toggleCart()">🛒 (<span id="count">0</span>)</div>
 
 <div class="cart-box" id="cartBox">
-<h3>Seu Carrinho 🩷</h3>
-
+<h3>Carrinho 🩷</h3>
 <div id="cartItems"></div>
-
 <div class="total" id="total"></div>
-
-<button onclick="finalizar()">Finalizar no WhatsApp 📲</button>
-<button onclick="limpar()">Limpar Carrinho ❌</button>
+<button onclick="finalizar()">Finalizar 📲</button>
+<button onclick="limpar()">Limpar ❌</button>
 </div>
 
+<!-- MODAL -->
+<div class="modal" id="modal" onclick="fecharModal()">
+<img id="imgGrande">
+</div>
+
+<!-- PRODUTOS -->
 <div class="container">
 
-<div class="card">
-<h3>Pulseira Simples 🩷</h3>
-<p class="price">R$ 5,00</p>
-<button onclick="add('Pulseira Simples', 5)">Adicionar</button>
-</div>
+<script>
+const produtos = [
+["Pulseira",5,"produto1.png"],
+["Colar",20,"produto2.png"],
+["Brinco",5,"produto3.png"],
+["Bracelete",15,"produto4.png"],
+["Chaveiro",10,"produto5.png"],
+["Produto 6",10,"produto6.png"],
+["Produto 7",10,"produto7.png"],
+["Produto 8",10,"produto8.png"],
+["Produto 9",10,"produto9.png"],
+["Produto 10",10,"produto10.png"]
+];
 
+document.write(produtos.map(p => `
 <div class="card">
-<h3>Pulseira de Luxo 🩷</h3>
-<p class="price">R$ 7,00</p>
-<button onclick="add('Pulseira de Luxo', 7)">Adicionar</button>
+<img src="${p[2]}" onclick="abrirImagem('${p[2]}')">
+<h3>${p[0]}</h3>
+<p class="price">R$ ${p[1]}</p>
+<button onclick="add('${p[0]}', ${p[1]})">Adicionar</button>
 </div>
-
-<div class="card">
-<h3>Colar 🩷</h3>
-<p class="price">R$ 20,00</p>
-<button onclick="add('Colar', 20)">Adicionar</button>
-</div>
-
-<div class="card">
-<h3>Brinco 🩷</h3>
-<p class="price">R$ 5,00</p>
-<button onclick="add('Brinco', 5)">Adicionar</button>
-</div>
+`).join(""));
+</script>
 
 </div>
 
 <script>
-let carrinho = [];
+let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+function salvar() {
+    localStorage.setItem("carrinho", JSON.stringify(carrinho));
+}
 
 function add(nome, preco) {
     carrinho.push({nome, preco});
+    salvar();
     atualizar();
 }
 
@@ -158,27 +199,28 @@ function atualizar() {
     let lista = "";
     let total = 0;
 
-    carrinho.forEach((item, index) => {
+    carrinho.forEach((item, i) => {
         total += item.preco;
-
         lista += `
         <div class="cart-item">
-            🩷 ${item.nome} - R$ ${item.preco.toFixed(2)}
-            <span onclick="remover(${index})" style="cursor:pointer;">❌</span>
+            ${item.nome} - R$ ${item.preco}
+            <span onclick="remover(${i})">❌</span>
         </div>`;
     });
 
     document.getElementById("cartItems").innerHTML = lista;
-    document.getElementById("total").innerText = "Total: R$ " + total.toFixed(2);
+    document.getElementById("total").innerText = "Total: R$ " + total;
 }
 
-function remover(index) {
-    carrinho.splice(index, 1);
+function remover(i) {
+    carrinho.splice(i, 1);
+    salvar();
     atualizar();
 }
 
 function limpar() {
     carrinho = [];
+    salvar();
     atualizar();
 }
 
@@ -188,24 +230,22 @@ function toggleCart() {
 }
 
 function finalizar() {
-    if (carrinho.length === 0) {
-        alert("Carrinho vazio!");
-        return;
-    }
-
-    let msg = "Olá! Quero comprar:\n\n";
-    let total = 0;
-
-    carrinho.forEach(item => {
-        msg += "🩷 " + item.nome + " - R$ " + item.preco.toFixed(2) + "\n";
-        total += item.preco;
-    });
-
-    msg += "\nTotal: R$ " + total.toFixed(2);
-
-    let url = "https://wa.me/553891580022?text=" + encodeURIComponent(msg);
-    window.open(url, "_blank");
+    let msg = "Olá, quero comprar:\n";
+    carrinho.forEach(i => msg += i.nome + "\n");
+    window.open("https://wa.me/553891580022?text=" + encodeURIComponent(msg));
 }
+
+/* MODAL */
+function abrirImagem(src) {
+    document.getElementById("modal").style.display = "block";
+    document.getElementById("imgGrande").src = src;
+}
+
+function fecharModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+atualizar();
 </script>
 
 </body>
