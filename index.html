@@ -9,32 +9,17 @@
 body {
     margin: 0;
     font-family: Arial;
-    background: linear-gradient(135deg, #ffe4ec, #f3e8ff, #e0f2ff);
+    background: linear-gradient(135deg, #fceb7, #d86d9c, #a4a2cc);
     overflow-x: hidden;
-}
-
-/* 🌸 FLORES */
-.flor {
-    position: fixed;
-    top: -50px;
-    pointer-events: none;
-    animation: cair linear infinite;
-    opacity: 0.7;
-}
-
-@keyframes cair {
-    0% { transform: translate(0,0) rotate(0deg); }
-    50% { transform: translate(40px,50vh) rotate(180deg); }
-    100% { transform: translate(-40px,110vh) rotate(360deg); }
 }
 
 /* HEADER */
 header {
-    background: #ff69b4;
+    background: #d86d9c; /* Paris Pink */
     color: white;
     text-align: center;
     padding: 20px;
-    font-size: 30px;
+    font-size: 28px;
 }
 
 /* GRID */
@@ -53,6 +38,7 @@ header {
     text-align: center;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 /* BRILHO */
@@ -80,57 +66,63 @@ header {
 }
 
 .price {
-    color: #ff1493;
+    color: #fbceb7; /* Ibis Pink */
     font-weight: bold;
 }
 
+/* BOTÕES */
 button {
-    background: #ff69b4;
+    background: #a4a2cc; /* Indigo Child */
     color: white;
     border: none;
     padding: 8px;
     border-radius: 10px;
     cursor: pointer;
-    margin-top: 5px;
+}
+
+/* 🛒 CARRINHO ÍCONE */
+.cart-icon {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    background: #d86d9c;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 50px;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 10000;
 }
 
 /* OVERLAY */
 .overlay {
     position: fixed;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.4);
     display: none;
     z-index: 9998;
 }
 
-/* CARRINHO APP */
+/* 🛒 CARRINHO DE BAIXO */
 .cart-box {
     position: fixed;
-    top: 0;
-    right: -320px;
-    width: 300px;
-    height: 100%;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
     background: white;
-    padding: 15px;
-    transition: right 0.4s ease;
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+    transition: bottom 0.4s ease;
     z-index: 9999;
+    max-height: 70%;
     overflow-y: auto;
 }
 
 .cart-box.open {
-    right: 0;
-}
-
-.cart-icon {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer;
-    z-index: 10000;
+    bottom: 0;
 }
 
 .cart-item {
@@ -141,6 +133,7 @@ button {
 .total {
     margin-top: 10px;
     font-weight: bold;
+    color: #d86d9c;
 }
 
 /* MODAL */
@@ -157,7 +150,7 @@ button {
 
 .modal img {
     display: block;
-    margin: 5% auto;
+    margin: 10% auto;
     max-width: 80%;
     border-radius: 10px;
 }
@@ -171,11 +164,14 @@ button {
 <!-- OVERLAY -->
 <div class="overlay" id="overlay" onclick="fecharCarrinho()"></div>
 
-<!-- CARRINHO -->
-<div class="cart-icon" onclick="toggleCart()">🛒 (<span id="count">0</span>)</div>
+<!-- 🛒 ÍCONE -->
+<div class="cart-icon" onclick="abrirCarrinho()">
+🛒 R$ <span id="totalIcon">0</span>
+</div>
 
+<!-- CARRINHO -->
 <div class="cart-box" id="cartBox">
-<h3>Carrinho 🩷</h3>
+<h3>Seu Carrinho 🩷</h3>
 <div id="cartItems"></div>
 <div class="total" id="total"></div>
 <button onclick="finalizar()">Finalizar 📲</button>
@@ -195,13 +191,7 @@ const produtos = [
 ["Pulseira",5,"produto1.png"],
 ["Colar",20,"produto2.png"],
 ["Brinco",5,"produto3.png"],
-["Bracelete",15,"produto4.png"],
-["Chaveiro",10,"produto5.png"],
-["Produto 6",10,"produto6.png"],
-["Produto 7",10,"produto7.png"],
-["Produto 8",10,"produto8.png"],
-["Produto 9",10,"produto9.png"],
-["Produto 10",10,"produto10.png"]
+["Bracelete",15,"produto4.png"]
 ];
 
 document.write(produtos.map(p => `
@@ -230,8 +220,6 @@ function add(nome, preco) {
 }
 
 function atualizar() {
-    document.getElementById("count").innerText = carrinho.length;
-
     let lista = "";
     let total = 0;
 
@@ -246,6 +234,7 @@ function atualizar() {
 
     document.getElementById("cartItems").innerHTML = lista;
     document.getElementById("total").innerText = "Total: R$ " + total;
+    document.getElementById("totalIcon").innerText = total;
 }
 
 function remover(i) {
@@ -260,7 +249,7 @@ function limpar() {
     atualizar();
 }
 
-function toggleCart() {
+function abrirCarrinho() {
     document.getElementById("cartBox").classList.add("open");
     document.getElementById("overlay").style.display = "block";
 }
@@ -285,22 +274,6 @@ function fecharModal() {
     document.getElementById("modal").style.display = "none";
 }
 
-/* 🌸 FLORES */
-const flores = ["🌸","🌺","🌷","💮"];
-
-function criarFlores() {
-    for (let i = 0; i < 25; i++) {
-        let flor = document.createElement("div");
-        flor.classList.add("flor");
-        flor.innerHTML = flores[Math.floor(Math.random()*flores.length)];
-        flor.style.left = Math.random() * 100 + "vw";
-        flor.style.animationDuration = (6 + Math.random() * 6) + "s";
-        flor.style.fontSize = (15 + Math.random() * 20) + "px";
-        document.body.appendChild(flor);
-    }
-}
-
-criarFlores();
 atualizar();
 </script>
 
