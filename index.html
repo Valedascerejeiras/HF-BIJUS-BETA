@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HF • Bijus</title>
 
-<!-- FONTE -->
+<!-- FONTES -->
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -23,7 +23,6 @@ header {
     padding: 20px;
     font-size: 38px;
     font-family: 'Great Vibes', cursive;
-    letter-spacing: 2px;
 }
 
 /* GRID */
@@ -83,7 +82,7 @@ button {
     cursor: pointer;
 }
 
-/* CARRINHO */
+/* 🛒 ÍCONE */
 .cart-icon {
     position: fixed;
     bottom: 15px;
@@ -93,16 +92,20 @@ button {
     padding: 10px 15px;
     border-radius: 50px;
     cursor: pointer;
+    z-index: 10000;
 }
 
+/* OVERLAY */
 .overlay {
     position: fixed;
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.4);
     display: none;
+    z-index: 9998;
 }
 
+/* CARRINHO */
 .cart-box {
     position: fixed;
     bottom: -100%;
@@ -111,6 +114,7 @@ button {
     border-radius: 20px 20px 0 0;
     padding: 20px;
     transition: 0.4s;
+    z-index: 9999;
 }
 
 .cart-box.open {
@@ -121,6 +125,7 @@ button {
 .modal {
     display: none;
     position: fixed;
+    z-index: 10001;
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.8);
@@ -130,6 +135,7 @@ button {
     display: block;
     margin: 10% auto;
     max-width: 80%;
+    border-radius: 10px;
 }
 </style>
 </head>
@@ -152,7 +158,17 @@ button {
 <button onclick="limpar()">Limpar ❌</button>
 </div>
 
-<div class="modal" id="modal" onclick="fecharModal()">
+<!-- MODAL CORRIGIDO -->
+<div class="modal" id="modal">
+<span onclick="fecharModal()" style="
+position:absolute;
+top:20px;
+right:30px;
+color:white;
+font-size:30px;
+cursor:pointer;
+">✖</span>
+
 <img id="imgGrande">
 </div>
 
@@ -207,8 +223,17 @@ document.getElementById("totalIcon").innerText=total;
 
 function remover(i){carrinho.splice(i,1);salvar();atualizar();}
 function limpar(){carrinho=[];salvar();atualizar();}
-function abrirCarrinho(){cartBox.classList.add("open");overlay.style.display="block";}
-function fecharCarrinho(){cartBox.classList.remove("open");overlay.style.display="none";}
+
+function abrirCarrinho(){
+cartBox.classList.add("open");
+overlay.style.display="block";
+}
+
+function fecharCarrinho(){
+cartBox.classList.remove("open");
+overlay.style.display="none";
+}
+
 function finalizar(){
 let msg="Olá, quero comprar:\n";
 carrinho.forEach(i=>msg+=i.nome+"\n");
@@ -219,7 +244,10 @@ function abrirImagem(src){
 modal.style.display="block";
 imgGrande.src=src;
 }
-function fecharModal(){modal.style.display="none";}
+
+function fecharModal(){
+modal.style.display="none";
+}
 
 atualizar();
 </script>
