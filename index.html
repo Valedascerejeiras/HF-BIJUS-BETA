@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HF • Bijus</title>
 
-<!-- FONTES -->
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -23,6 +22,16 @@ header {
     padding: 20px;
     font-size: 38px;
     font-family: 'Great Vibes', cursive;
+}
+
+/* BOTÕES CONTATO */
+.contato {
+    text-align: center;
+    margin: 15px;
+}
+
+.contato button {
+    margin: 5px;
 }
 
 /* GRID */
@@ -43,11 +52,9 @@ header {
     overflow: hidden;
 }
 
-/* BRILHO */
 .card::before {
     content: "";
     position: absolute;
-    top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
@@ -72,7 +79,6 @@ header {
     font-weight: bold;
 }
 
-/* BOTÕES */
 button {
     background: #a4a2cc;
     color: white;
@@ -82,7 +88,7 @@ button {
     cursor: pointer;
 }
 
-/* 🛒 ÍCONE */
+/* CARRINHO */
 .cart-icon {
     position: fixed;
     bottom: 15px;
@@ -91,11 +97,9 @@ button {
     color: white;
     padding: 10px 15px;
     border-radius: 50px;
-    cursor: pointer;
     z-index: 10000;
 }
 
-/* OVERLAY */
 .overlay {
     position: fixed;
     width: 100%;
@@ -105,7 +109,6 @@ button {
     z-index: 9998;
 }
 
-/* CARRINHO */
 .cart-box {
     position: fixed;
     bottom: -100%;
@@ -135,7 +138,6 @@ button {
     display: block;
     margin: 10% auto;
     max-width: 80%;
-    border-radius: 10px;
 }
 </style>
 </head>
@@ -143,6 +145,12 @@ button {
 <body>
 
 <header>HF • Bijus 🩷</header>
+
+<!-- BOTÕES -->
+<div class="contato">
+    <button onclick="irWhats()">📲 WhatsApp</button>
+    <button onclick="irInsta()">📸 Instagram</button>
+</div>
 
 <div class="overlay" id="overlay" onclick="fecharCarrinho()"></div>
 
@@ -158,17 +166,8 @@ button {
 <button onclick="limpar()">Limpar ❌</button>
 </div>
 
-<!-- MODAL CORRIGIDO -->
 <div class="modal" id="modal">
-<span onclick="fecharModal()" style="
-position:absolute;
-top:20px;
-right:30px;
-color:white;
-font-size:30px;
-cursor:pointer;
-">✖</span>
-
+<span onclick="fecharModal()" style="position:absolute;top:20px;right:30px;color:white;font-size:30px;cursor:pointer;">✖</span>
 <img id="imgGrande">
 </div>
 
@@ -185,7 +184,11 @@ const produtos = [
 ["Macramê",12.5,"produto7.png"],
 ["Cordinha Celular",10,"produto8.png"],
 ["Conjunto Pulseiras",5,"produto9.png"],
-["Brinco Luxo",8,"produto10.png"]
+["Brinco Luxo",8,"produto10.png"],
+["Colar Premium",25,"produto11.png"],
+["Pulseira Deluxe",15,"produto12.png"],
+["Brinco Floral",7,"produto13.png"],
+["Kit Verão",18,"produto14.png"]
 ];
 
 document.write(produtos.map(p => `
@@ -216,9 +219,9 @@ carrinho.forEach((i,idx)=>{
 total+=i.preco;
 lista+=`<div>${i.nome} - R$ ${i.preco} <span onclick="remover(${idx})">❌</span></div>`;
 });
-document.getElementById("cartItems").innerHTML=lista;
-document.getElementById("total").innerText="Total: R$ "+total;
-document.getElementById("totalIcon").innerText=total;
+cartItems.innerHTML=lista;
+totalIcon.innerText=total;
+total.innerText="Total: R$ "+total;
 }
 
 function remover(i){carrinho.splice(i,1);salvar();atualizar();}
@@ -247,6 +250,15 @@ imgGrande.src=src;
 
 function fecharModal(){
 modal.style.display="none";
+}
+
+/* BOTÕES */
+function irWhats(){
+window.open("https://wa.me/553891580022");
+}
+
+function irInsta(){
+window.open("https://www.instagram.com/hf_arteebijus");
 }
 
 atualizar();
