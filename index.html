@@ -14,24 +14,36 @@ body {
     background: linear-gradient(135deg, #fbceb7, #d86d9c, #a4a2cc);
 }
 
-/* HEADER */
-header {
+/* HEADER COM LOGO */
+.topo {
     background: #d86d9c;
     color: white;
-    text-align: center;
-    padding: 20px;
-    font-size: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px;
+}
+
+/* LOGO */
+.logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* TEXTO */
+.topo h1 {
     font-family: 'Great Vibes', cursive;
+    font-size: 38px;
+    margin: 0;
 }
 
 /* BOTÕES CONTATO */
 .contato {
     text-align: center;
     margin: 15px;
-}
-
-.contato button {
-    margin: 5px;
 }
 
 /* GRID */
@@ -144,7 +156,11 @@ button {
 
 <body>
 
-<header>HF • Bijus 🩷</header>
+<!-- HEADER COM LOGO -->
+<header class="topo">
+    <img src="logo.png" class="logo">
+    <h1>HF • Bijus 🩷</h1>
+</header>
 
 <!-- BOTÕES -->
 <div class="contato">
@@ -252,7 +268,6 @@ function fecharModal(){
 modal.style.display="none";
 }
 
-/* BOTÕES */
 function irWhats(){
 window.open("https://wa.me/553891580022");
 }
